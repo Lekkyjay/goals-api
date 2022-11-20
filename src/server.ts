@@ -15,11 +15,6 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-//landing
-app.use('/', (req, res) => {
-  res.status(200).json({ message: 'Welcome to goal setting App'})
-})
-
 //testing errorHandler
 app.use('/testing', (req, res) => {
   res.status(400)
@@ -32,8 +27,8 @@ app.use('/api/auth', authRoutes)
 
 // serve client
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../client/build')))
-  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', '../', 'client', 'build', 'index.html')))
+  app.use(express.static(path.join(__dirname, '../build')))
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'build', 'index.html')))
 } else {
   app.get('/', (req, res) => res.send('Please set NODE_ENV to production'))
 }
