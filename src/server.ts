@@ -1,6 +1,6 @@
 require('dotenv').config()
 import express from 'express'
-import path from 'path'
+// import path from 'path'
 import { errorHandler} from './middlewares/errorHandler'
 import connectDB from './configs/db'
 import goalRoutes from './routes/goals'
@@ -15,6 +15,11 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+//landing
+app.use('/', (req, res) => {
+  res.status(200).json({ message: 'Welcome to goal setting App'})
+})
+
 //testing errorHandler
 app.use('/testing', (req, res) => {
   res.status(400)
@@ -26,12 +31,12 @@ app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
 
 // serve client
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../client/build')))
-  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', '../', 'client', 'build', 'index.html')))
-} else {
-  app.get('/', (req, res) => res.send('Please set NODE_ENV to production'))
-}
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, '../../client/build')))
+//   app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', '../', 'client', 'build', 'index.html')))
+// } else {
+//   app.get('/', (req, res) => res.send('Please set NODE_ENV to production'))
+// }
 
 app.use(errorHandler)
 
