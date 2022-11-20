@@ -1,6 +1,6 @@
 require('dotenv').config()
 import express from 'express'
-// import path from 'path'
+import path from 'path'
 import { errorHandler} from './middlewares/errorHandler'
 import connectDB from './configs/db'
 import goalRoutes from './routes/goals'
@@ -31,12 +31,12 @@ app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
 
 // serve client
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(__dirname, '../../client/build')))
-//   app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', '../', 'client', 'build', 'index.html')))
-// } else {
-//   app.get('/', (req, res) => res.send('Please set NODE_ENV to production'))
-// }
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../../client/build')))
+  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', '../', 'client', 'build', 'index.html')))
+} else {
+  app.get('/', (req, res) => res.send('Please set NODE_ENV to production'))
+}
 
 app.use(errorHandler)
 
